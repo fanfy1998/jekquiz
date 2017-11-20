@@ -37,7 +37,7 @@ window.onload = function() {
 function loadQuestions() {
 
   nColumns = 7;
-  filePath = __dirname + '/perguntas1.csv';
+  filePath = __dirname + '/perguntas.csv';
 
 
   fs.readFile(filePath, function(err, data) {
