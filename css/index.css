@@ -1,0 +1,15 @@
+button {
+  height: 300px;
+  width: 500px;
+  background-color: #00BFFF;
+  font-size:larger;
+}
+
+body {
+  background-color: #CCEEFF;
+}
+
+#logo {
+  width: 200px;
+  height: 200px;
+}
