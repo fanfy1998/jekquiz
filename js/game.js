@@ -1,17 +1,5 @@
 const fs = require('fs');
 const BuzzController = require('./js/BuzzController.js');
-//
-window.onload = () => {
-  BuzzController.data(
-    err => console.log(err),
-    data => console.log(BuzzController.identify(data))
-  );
-}
-
-
-//device.close()
-
-//
 
 let startScreen, gameScreen, endScreen, pickCharacterScreen, scoreScreen;
 let questions = [];
@@ -22,7 +10,7 @@ let voted = [false, false, false, false];
 let count = 0;
 let level = 0;
 
-/*window.onload = function() {
+window.onload = function() {
   npergunta = document.getElementById('npergunta');
   categoria = document.getElementById('categoria');
   pergunta = document.getElementById('pergunta');
@@ -45,7 +33,7 @@ let level = 0;
   hide(startScreen);
 
   loadQuestions();
-}*/
+}
 
 function loadQuestions() {
 
