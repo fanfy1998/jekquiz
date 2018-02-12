@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "electron": "^1.7.9",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "node-hid": "^0.7.2"
   }
 }
