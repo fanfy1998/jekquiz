@@ -1,4 +1,5 @@
 const fs = require('fs');
+const BuzzController = require('./js/BuzzController.js');
 
 let startScreen, gameScreen, endScreen, pickCharacterScreen, scoreScreen;
 let questions = [];
