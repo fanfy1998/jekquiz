@@ -78,13 +78,21 @@ function pickCharacters(){
   const buttons = pickCharacterScreen.getElementsByTagName('button');
   show(pickCharacterScreen);
 
+
   for (let i = 0; i < buttons.length; ++i) {
-    buttons[i].onclick = function(ev) {
+      buttons[i].onclick = function(ev) {
       ev.target.disabled = true;
       console.log(ev.target);
       buttons.indexOf(ev.target)
+
+      if (i == 4){
+        buttons[i].onclick = function() {
+          hide(pickCharacterScreen);
+          prepare();
+      }
     }
   }
+}
   buttons[i].onclick = function() {
     hide(pickCharacterScreen);
     prepare();
