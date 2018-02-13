@@ -5,3 +5,5 @@ class Question {
     this.correct = correct;
   }
 }
+
+module.exports = Question;

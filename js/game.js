@@ -1,5 +1,6 @@
 const fs = require('fs');
 const BuzzController = require('./js/BuzzController.js');
+const Question = require('./js/Question.js');
 
 let startScreen, gameScreen, endScreen, pickCharacterScreen, scoreScreen, winnerScreen, winner;
 let questions = [];
@@ -47,16 +48,29 @@ window.onload = function() {
   loadQuestions();
 }
 
+function randInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
 function loadQuestions() {
   nColumns = 7;
   filePath = __dirname + '/perguntas.csv';
+  let loadedQuestions = [];
 
   let data = fs.readFileSync(filePath);
 
   data = data.toString().replace(/\n|\r/g, "").split(',');
 
   for (let i=0; i<data.length; i+=6) {
-    questions.push(new Question(data[i], data.slice(i+1, i+nColumns-2), colors[data[i+5]]));
+    loadedQuestions.push(new Question(data[i], data.slice(i+1, i+nColumns-2), colors[data[i+5]]));
+  }
+
+  for (let i = 0; i < 10;++i) {
+    let randomIndex = randInt(0, loadedQuestions.length)
+    let randomQuestion = loadedQuestions.splice(randomIndex, 1)[0]
+    questions.push(randomQuestion)
   }
 
   show(startScreen);
