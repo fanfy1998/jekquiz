@@ -1,16 +1,16 @@
 const fs = require('fs');
 const BuzzController = require('./js/BuzzController.js');
 
-let startScreen, gameScreen, endScreen, pickCharacterScreen, scoreScreen;
+let startScreen, gameScreen, endScreen, pickCharacterScreen, scoreScreen, winnerScreen, winner;
 let questions = [];
 let npergunta, pergunta, button1, button2, button3, button4, countdown;
-let scores = [0, 0, 0, 0];
-let player1 = 'qwer', player2 = 'uiop', player3 = 'zxcv', player4 = 'jklç';
-let voted = [false, false, false, false];
+let scores = { 'blue': 0, 'orange': 0, 'green': 0, 'yellow': 0}
 let count = 0;
 let level = 0;
 let columns = [1,2,3,4,5,6,7,8,9,10];
 let lines = [1,2,3,4];
+let characters = { 'blue': null, 'orange': null, 'green': null, 'yellow': null}
+let colors = {1: 'blue', 2: 'orange', 3: 'green', 4: 'yellow'}
 
 window.onload = function() {
   npergunta = document.getElementById('npergunta');
@@ -21,7 +21,6 @@ window.onload = function() {
   button4 = document.getElementById('button4');
   countdown = document.getElementById('countdown');
   countdown2 = document.getElementById('countdown2');
-  winner = document.getElementById('winner');
   playAgain = document.getElementById('playAgain');
   character = document.getElementById('character');
 
@@ -33,6 +32,7 @@ window.onload = function() {
   prepareScreen = document.getElementById('prepareScreen');
   winnerScreen = document.getElementById('winnerScreen');
   classificationBoard = document.getElementById('classification_board')
+  winner = document.getElementById('winner')
 
   hide(pickCharacterScreen);
   hide(endScreen);
@@ -46,16 +46,8 @@ window.onload = function() {
 
   loadQuestions();
 }
-function pick(ev) {
-  let keypressed = ev.key;
-  let isPlayer1 = player1.indexOf(keypressed);
-  let isPlayer2 = player2.indexOf(keypressed);
-  let isPlayer3 = player3.indexOf(keypressed);
-  let isPlayer4 = player4.indexOf(keypressed);
-}
 
 function loadQuestions() {
-
   nColumns = 7;
   filePath = __dirname + '/perguntas.csv';
 
@@ -64,7 +56,7 @@ function loadQuestions() {
   data = data.toString().replace(/\n|\r/g, "").split(',');
 
   for (let i=0; i<data.length; i+=6) {
-    questions.push(new Question(data[i], data.slice(i+1, i+nColumns-2), data[i+5]));
+    questions.push(new Question(data[i], data.slice(i+1, i+nColumns-2), colors[data[i+5]]));
   }
 
   show(startScreen);
@@ -76,28 +68,47 @@ function loadQuestions() {
 }
 
 function pickCharacters(){
-  const buttons = pickCharacterScreen.getElementsByTagName('button');
   show(pickCharacterScreen);
 
+  let picked = 0;
 
-  for (let i = 0; i < buttons.length; ++i) {
-      buttons[i].onclick = function(ev) {
-      ev.target.disabled = true;
-      console.log(ev.target);
-      buttons.indexOf(ev.target)
+  let onerror = function(err) {
 
-      if (i == 4){
-        buttons[i].onclick = function() {
-          hide(pickCharacterScreen);
-          prepare();
-      }
+  }
+
+  let ondata = function(data) {
+    let buttonPressed = BuzzController.identify(data);
+
+    if (buttonPressed === undefined) return
+    if (buttonPressed.button == "buzz") return
+    if (characters[buttonPressed.button] === buttonPressed.player) return
+
+    if (characters[buttonPressed.button] !== null) {
+      console.log(characters);
+      console.log("Player " + characters[buttonPressed.button] + " already picked color " + buttonPressed.button)
+      return
+    }
+
+    if (Object.values(characters).includes(buttonPressed.player)) {
+      let oldKey = Object.keys(characters).find(key => characters[key] === buttonPressed.player)
+
+      characters[oldKey] = null;
+    } else {
+      ++picked
+    }
+
+    characters[buttonPressed.button] = buttonPressed.player
+    console.log(characters);
+    console.log("Color " + buttonPressed.button + " assigned to " + buttonPressed.player);
+
+    if (picked == 4) {
+      hide(pickCharacterScreen);
+      prepare()
+      BuzzController.close()
     }
   }
-}
-  buttons[i].onclick = function() {
-    hide(pickCharacterScreen);
-    prepare();
-  }
+
+  BuzzController.data(onerror, ondata)
 }
 
 function prepare() {
@@ -125,6 +136,7 @@ function game() {
   let question = questions[level];
   let timeout = 5;
   let timer;
+  let voted = [false, false, false, false];
 
   hide(prepareScreen);
   show(gameScreen);
@@ -137,48 +149,35 @@ function game() {
   button3.innerText = question.answers[2];
   button4.innerText = question.answers[3];
 
-  let select = function(ev) {
-    let keypressed = ev.key;
-    let isPlayer1 = player1.indexOf(keypressed);
-    let isPlayer2 = player2.indexOf(keypressed);
-    let isPlayer3 = player3.indexOf(keypressed);
-    let isPlayer4 = player4.indexOf(keypressed);
+  let onerror = function(err) {
 
-    if (isPlayer1 != -1 && !voted[0]) {
-      if (isPlayer1 == question.correct - 1) {
+  }
 
-        console.log('P1 correct');
-        scores[0] = scores[0] + 1;
-      } else console.log('P1 wrong');
-      voted[0] = true;
-    } else if (isPlayer2 != -1 && !voted[1]) {
-      if (isPlayer2 == question.correct - 1) {
-        console.log('P2 correct');
-        scores[1] = scores[1] + 1;
-      } else console.log('P2 wrong');
-      voted[1] = true;
-    } else if (isPlayer3 != -1 && !voted[2]) {
-      if (isPlayer3 == question.correct - 1) {
-        console.log('P3 correct');
-        scores[2] = scores[2] + 1;
-      } else console.log('P3 wrong');
-      voted[2] = true;
-    } else if (isPlayer4 != -1  && !voted[3]) {
-      if (isPlayer4 == question.correct - 1) {
-        console.log('P4 correct');
-        scores[3] = scores[3] + 1;
-      } else console.log('P4 wrong');
-      voted[3] = true;
+  let ondata = function(data) {
+    let buttonPressed = BuzzController.identify(data);
+
+    if (buttonPressed === undefined) return
+    if (buttonPressed.button == "buzz") return
+
+    if (!voted[buttonPressed.player]) {
+      if (buttonPressed.button == question.correct) {
+        let playerColor = Object.keys(characters).find(key => characters[key] === buttonPressed.player)
+        scores[playerColor] = scores[playerColor] + 1;
+      } else console.log('P' + buttonPressed.player + ' wrong');
+      voted[buttonPressed.player] = true;
     }
 
     let allVoted = voted.reduce(function(acumulator, vote) {
       return acumulator && vote;
     });
 
-    if (allVoted) nextLevel();
+    if (allVoted) {
+      BuzzController.close()
+      nextLevel()
+    }
   }
 
-  window.onkeypress = select;
+  BuzzController.data(onerror, ondata)
 
   timer = setTimeout(hit, 1000);
 
@@ -186,6 +185,7 @@ function game() {
     --timeout;
     countdown.innerText = timeout;
     if (timeout == 0) {
+      BuzzController.close()
       nextLevel();
     } else {
       timer = setTimeout(hit, 1000);
@@ -194,7 +194,7 @@ function game() {
 
   function nextLevel() {
     voted = [false, false, false, false];
-    if (level + 1 == questions.length - 1) {
+    if (level + 1 == questions.length) {
       hide(prepareScreen);
       hide(gameScreen);
       end();
@@ -208,7 +208,6 @@ function game() {
 
 function end(){
   show(endScreen);
-  hide(winnerScreen);
   let timeout3 = 5;
   let timer3;
 
@@ -221,13 +220,18 @@ function end(){
   function hit3() {
     --timeout3;
     if (timeout3 == 0) {
-      hide(endScreen);
-      show(winnerScreen);
-      show(winner);
-      show(classificationBoard);
-      winner1();
+      hide(endScreen)
+      winner1()
     } else {
       timer3 = setTimeout(hit3, 1000);
+    }
+
+    function winner1() {
+      let max = Math.max(...Object.values(scores))
+      let winnerColor = Object.keys(scores).find(key => scores[key] === max)
+      let winnersColors = {'blue':"images/blue.png", 'orange':"images/orange.png", 'green':"images/green.png", 'yellow':"images/yellow.png"}
+      winner.src = winnersColors[winnerColor]
+      show(winnerScreen)
     }
   }
 }
@@ -243,39 +247,15 @@ function showScore() {
     game();
   }
 
-  result[0].innerText = 'Player 1: ' + scores[0];
-  result[1].innerText = 'Player 2: ' + scores[1];
-  result[2].innerText = 'Player 3: ' + scores[2];
-  result[3].innerText = 'Player 4: ' + scores[3];
+  let playerColor = Object.keys(characters).find(key => characters[key] === 0)
+  result[0].innerText = 'Player 1: ' + scores[playerColor];
+  playerColor = Object.keys(characters).find(key => characters[key] === 1)
+  result[1].innerText = 'Player 2: ' + scores[playerColor];
+  playerColor = Object.keys(characters).find(key => characters[key] === 2)
+  result[2].innerText = 'Player 3: ' + scores[playerColor];
+  playerColor = Object.keys(characters).find(key => characters[key] === 3)
+  result[3].innerText = 'Player 4: ' + scores[playerColor];
 }
-
-function winner1(){
-  let positions = [];
-  let counter = 0;
-  let lastMax = -1;
-  let scoreBoard = [ ...scores ];
-
-  while (counter < 4) {
-    let max = Math.max(...scoreBoard);
-    let index = scoreBoard.indexOf(max);
-    console.log(max, index, lastMax);
-    if (max == lastMax) {
-      positions[positions.length-1].push(index);
-    } else {
-      positions.push([ index+1 ]);
-    }
-
-    lastMax = max;
-
-    scoreBoard[index] = -1;
-    ++counter;
-  }
-
-  console.log(positions);
-
-  winner.innerText = 'Player ' + positions[0][0];
-}
-
 
 function hide(el) {
   el.style.display = "none";
