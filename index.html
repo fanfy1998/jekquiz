@@ -15,11 +15,23 @@
     <div class="container1">
       <h1> jeKquiz</h1>
     </div>
-    <div class="container2">
-      <button> Press buzz to start! </button>
+    <div id="gameScreen">
+      <h1 id="countdown"></h1>
+      <h1 id="npergunta"></h1>
+      <h2 id="pergunta"></h2>
+
+      <button id="button1">A:</button>
+      <button id="button2">B:</button>
+      <button id="button3">C:</button>
+      <button id="button4">D:</button>
+
     </div>
-    <div class="simbolo_img">
-      <img src="Images/simbolo.png" alt="logo">
+    <div id="pickCharacterScreen">
+      <button><img src="images/respondeu1.png" /></button>
+      <button><img src="images/respondeu2.png" /></button>
+      <button><img src="images/respondeu3.png" /></button>
+      <button><img src="images/respondeu4.png" /></button>
+
     </div>
   </section>
 
@@ -28,7 +40,7 @@
         <h1 id="countdown"></h1>
       </div>
       <h1 id="npergunta"></h1>
-      <<div class="containerquestion">
+      <div class="containerquestion">
         <h2 id="pergunta"></h2>
       </div>
       <div class="answer">
@@ -83,35 +95,100 @@
         <h1></h1>
       </div>
       <button id ='continue'>Continuar</button>
-    </section>
-    <section id = 'prepareScreen'>
+    </div>
+    <div id = 'prepareScreen'>
       <h1>Raise your glasses guys! This is about to start!</h1>
       <h1 id = 'countdown2'></h1>
-      <div class="containerlets_strat">
-        <h1>Raise your glasses guys! <br>
-            This is about to start!</h1>
-      </div>
-      <div class="teamsselected">
-        <img src="Images/select1.png" alt="1" height="170" width="170">
-        <img src="Images/select2.png" alt="2" height="170" width="170">
-        <img src="Images/select3.png" alt="3" height="170" width="170">
-        <img src="Images/select4.png" alt="4" height="170" width="170">
-      </div>
-    </section>
-
-    <section id="endScreen">
+    </div>
+    <div id="endScreen">
       <h1 id = 'countdown3'></h1>
-      <div class="container_suspense">
-          <h2> And the winner is....</h2>
-      </div>
-    </section>
-    <section id = 'winnerScreen'>
-      <div class="guy_drinking">
-        <img id= 'winner'></img>
-      </div>
-    </section>
+      <h1>And the winner is...</h1>
+    </div>
+    <div id = 'winnerScreen'>
+      <img id= 'winner'></img>
+      <button id = 'playAgain'>Play Again</button>
+    </div>
+    </div>
     <script src="js/game.js"></script>
   </body>
+  <section id="classification_board">
+      <div class="container_board">
+          <h1> Classification Board</h1>
+      </div>
+      <div class="container_table">
+      <table> <!-- number of the question -->
+          <tr>
+              <th> </th>
+              <th> Question 1</th>
+              <th> Question 2</th>
+              <th> Question 3</th>
+              <th> Question 4</th>
+              <th> Question 5</th>
+              <th> Question 6</th>
+              <th> Question 7</th>
+              <th> Question 8</th>
+              <th> Question 9</th>
+              <th> Question 10</th>
+          </tr>
+          <!-- team 1 got it right or wrong -->
+          <tr>
+              <th>Team 1</th>
+              <th id = 't1p1'></th>
+              <th id = 't1p2'></th>
+              <th id = 't1p3'></th>
+              <th id = 't1p4'></th>
+              <th id = 't1p5'></th>
+              <th id = 't1p6'></th>
+              <th id = 't1p7'></th>
+              <th id = 't1p8'></th>
+              <th id = 't1p9'></th>
+              <th id = 't1p10'></th>
+          </tr>
+          <!-- team 2 got it right or wrong -->
+          <tr>
+              <th>Team 2</th>
+              <th id = 't2p1'></th>
+              <th id = 't2p2'></th>
+              <th id = 't2p3'></th>
+              <th id = 't2p4'></th>
+              <th id = 't2p5'></th>
+              <th id = 't2p6'></th>
+              <th id = 't2p7'></th>
+              <th id = 't2p8'></th>
+              <th id = 't2p9'></th>
+              <th id = 't2p10'></th>
+          </tr>
+          <!-- team 3 got it right or wrong -->
+          <tr>
+              <th> Team 3</th>
+              <th id = 't3p1'></th>
+              <th id = 't3p2'></th>
+              <th id = 't3p3'></th>
+              <th id = 't3p4'></th>
+              <th id = 't3p5'></th>
+              <th id = 't3p6'></th>
+              <th id = 't3p7'></th>
+              <th id = 't3p8'></th>
+              <th id = 't3p9'></th>
+              <th id = 't3p10'></th>
+          </tr>
+          <!-- team 4 got it right or wrong -->
+          <tr>
+              <th> Team 4</th>
+              <th id = 't4p1'></th>
+              <th id = 't4p2'></th>
+              <th id = 't4p3'></th>
+              <th id = 't4p4'></th>
+              <th id = 't4p5'></th>
+              <th id = 't4p6'></th>
+              <th id = 't4p7'></th>
+              <th id = 't4p8'></th>
+              <th id = 't4p9'></th>
+              <th id = 't4p10'></th>
+          </tr>
+      </table>
+      </div>
+  </section>
   <Character id = 'character'>
   </Character>
 
