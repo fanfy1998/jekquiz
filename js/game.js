@@ -42,6 +42,7 @@ window.onload = function() {
   hide(startScreen);
   hide(prepareScreen);
   hide(character);
+  hide(winnerScreen);
 
   loadQuestions();
 }
@@ -74,10 +75,17 @@ function loadQuestions() {
 
   show(startScreen);
 
-  startScreen.getElementsByTagName('button')[0].onclick = function() {
-    hide(startScreen);
-    pickCharacters();
-  }
+  let ondata = function(data) {
+    let buttonPressed = BuzzController.identify(data);
+
+    if (buttonPressed === undefined) return
+    if (buttonPressed.button == "buzz") {
+      function buzzi() {
+        hide(startScreen)
+        show(pickCharacterScreen)
+
+      }
+    }
 }
 
 function pickCharacters(){
