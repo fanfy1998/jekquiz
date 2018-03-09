@@ -43,6 +43,7 @@ window.onload = function() {
   hide(prepareScreen);
   hide(playAgain);
   hide(classificationBoard);
+
   hide(character);
 
   loadQuestions();
