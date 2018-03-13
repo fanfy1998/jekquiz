@@ -19,7 +19,11 @@ class BuzzBell {
 
 class BuzzController {
   constructor() {
-    this.device = null;
+    let deviceInfo = HID.devices().find(
+      device => device.product == 'Logitech Buzz(tm) Controller V1'
+    )
+
+    this.device = new HID.HID(deviceInfo.path)
 
     this.bells = [
       new BuzzBell('12712710240', '127127160240', '12712780240', '12712740240', '12712720240'),
@@ -29,28 +33,7 @@ class BuzzController {
     ]
   }
 
-
-  open() {
-    try {
-      let deviceInfo = HID.devices().find(
-        device => device.product == 'Logitech Buzz(tm) Controller V1'
-      )
-
-      this.device = new HID.HID(deviceInfo.path)
-    } catch (err) {
-      window.alert('Connect buzz controllers')
-      this.open()
-    }
-  }
-
-  close() {
-    this.device.close()
-
-    this.device = null
-  }
-
   data(onerror, ondata) {
-    this.open()
     this.device.on('error', onerror)
     this.device.on('data', ondata)
   }
@@ -58,15 +41,11 @@ class BuzzController {
   identify(codeArray) {
     let code = codeArray.reduce((acum, curr) => acum.toString() + curr.toString())
 
-    let bellMatch = this.bells.map((bell, index) => {
-      let obj = { button: bell.codename[code], player: index }
+    let codename = this.bells.map((bell, index) => bell.codename[code] + index)
 
-      return obj;
-    })
+    codename = codename.filter(codename => typeof codename !== 'number')[0]
 
-    let buttonPressed = bellMatch.filter((bellCompare) => bellCompare.button !== undefined)[0]
-
-    return buttonPressed;
+    return codename
   }
 }
 

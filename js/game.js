@@ -41,6 +41,9 @@ window.onload = function() {
   hide(scoreScreen);
   hide(startScreen);
   hide(prepareScreen);
+  hide(playAgain);
+  hide(classificationBoard);
+
   hide(character);
   hide(winnerScreen);
 
@@ -63,7 +66,6 @@ function loadQuestions() {
   data = data.toString().replace(/\n|\r/g, "").split(',');
 
   for (let i=0; i<data.length; i+=6) {
-    console.log(data);
     loadedQuestions.push(new Question(data[i], data.slice(i+1, i+nColumns-2), colors[data[i+5]]));
   }
 
@@ -155,8 +157,7 @@ function prepare() {
 }
 function game() {
   let question = questions[level];
-  console.log(question);
-  let timeout = 10;
+  let timeout = 5;
   let timer;
   let voted = [false, false, false, false];
 
@@ -192,6 +193,11 @@ function game() {
     let allVoted = voted.reduce(function(acumulator, vote) {
       return acumulator && vote;
     });
+
+    if (allVoted) {
+      BuzzController.close()
+      nextLevel()
+    }
   }
 
   BuzzController.data(onerror, ondata)
