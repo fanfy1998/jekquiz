@@ -30,7 +30,7 @@ body {
 
 /* FIRST PAGE--- JEKQUIZ*/
 
-#startScreen {
+#firstpage {
   background-image: url("../Images/background1.png");
   background-size: cover;
   background-position: center;
@@ -87,7 +87,7 @@ body {
 
 /* SECOND PAGE--- CHOOSE A TEAM*/
 
-#pickCharacterScreen {
+#team {
   background: #7CCCED;
   display: flex;
   flex-direction: column;
@@ -104,7 +104,7 @@ body {
   width: 100%;
 }
 
-.pickCharacterScreen {
+.teams {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -172,7 +172,7 @@ body {
     padding-top: 36px;
     padding-left: 10px;
   }
-  #pickCharacterScreen {
+  #team {
     height: 100%;
     width: 100%;
   }
@@ -335,7 +335,7 @@ body {
   padding-right: 25px;
 }
 
-#button1 {
+#answer1 {
   background: #0E94AA;
   color: black;
   margin-bottom: 10px;
@@ -345,7 +345,7 @@ body {
 }
 
 
-#button2 {
+#answer2 {
   background: #DB9405;
   color: black;
   margin-bottom: 10px;
@@ -354,7 +354,7 @@ body {
       text-align: center;
 }
 
-#button3 {
+#answer3 {
   background: #71C114;
   color: black;
   margin-bottom: 10px;
@@ -363,7 +363,7 @@ body {
   text-align: center;
 }
 
-#button4 {
+#answer4 {
   background: #F4D30F;
   color: black;
   margin-bottom: 10px;
@@ -487,7 +487,7 @@ body {
 }
 
 @media (max-width: 800px) {
-  #scoreScreen {
+  #results {
     height: 100%;
     width: 100%;
   }

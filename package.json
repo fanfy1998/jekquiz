@@ -4,9 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "electromon": "^1.0.8",
     "electron": "^1.7.9",
     "fs": "^0.0.1-security",
-    "node-hid": "^0.7.2"
+    "npx": "^9.7.1"
   }
 }
