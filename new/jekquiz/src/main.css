@@ -1,2 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Lato|Permanent+Marker");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
+
+/* RESET */
+body, html, #root {
+  margin: 0;
+  height: 100%;
+}

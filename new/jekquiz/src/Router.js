@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import React from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import './main.css'
-import Screens from './screens'
+import { Home, Characters } from './screens'
 
 const Router = () => (
   <BrowserRouter>
-    <Screens.Home />
+    <Switch>
+      <Route path='/characters' component={Characters} />
+      <Route component={Home} />
+    </Switch>
   </BrowserRouter>
 )
 

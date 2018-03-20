@@ -1,31 +1,58 @@
 import React from 'react'
+import '../animations.css'
 
 const styles = {
   section: {
-    backgroundImage: "url('images/background1.png')",
+    backgroundImage: "url('images/home.png')",
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",
     flexDirection: "column",
-    height: "100vh",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
     width: "100%"
   },
-  div: {
+  h1: {
     color: "#7CCCED",
-    display: "flex",
     fontSize: "5.5em",
-    justifyContent: "center",
-    paddingTop: "156px",
-    fontFamily: "myFirstFont"
+    fontFamily: "Permanent Marker",
+    textAlign: "center",
+    marginTop: "0"
+  },
+  p: {
+    color: "white",
+    fontSize: "1.5em",
+    fontFamily: "Permanent Marker",
+    textAlign: "center",
+    animation: "blink 3s infinite"
   }
 }
 
-const Home = () => (
-  <section style={styles.section}>
-    <div style={styles.div}>
-      <h1>jeKquiz</h1>
-    </div>
-  </section>
-)
+class Home extends React.Component {
+  componentWillMount() {
+    document.onkeydown = this.buttonPress.bind(this);
+  }
 
-export default Home;
+  componentWillUnmount() {
+    document.onkeydown = null;
+  }
+
+  buttonPress(ev) {
+    if (ev.type === 'keydown' && !['Enter', ' '].includes(ev.key)) return
+    this.props.history.push('/characters')
+  }
+
+  render() {
+    return (
+      <section style={styles.section}>
+        <div>
+          <h1 style={styles.h1}>jeKquiz</h1>
+          <p style={styles.p} onClick={this.buttonPress.bind(this)}>Press Buzz to start</p>
+        </div>
+      </section>
+    )
+  }
+}
+
+export default Home

@@ -1,3 +1,4 @@
 import Home from './Home'
+import Characters from './Characters'
 
-export default { Home }
+export { Home, Characters }
