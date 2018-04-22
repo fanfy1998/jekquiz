@@ -1,9 +1,9 @@
 import React from 'react'
-import '../animations.css'
+import background from '../images/home.png'
 
 const styles = {
   section: {
-    backgroundImage: "url('images/home.png')",
+    backgroundImage: "url(" + background + ")",
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",
@@ -15,15 +15,14 @@ const styles = {
   },
   h1: {
     color: "#7CCCED",
-    fontSize: "5.5em",
-    fontFamily: "Permanent Marker",
+    fontSize: "8em",
+    fontFamily: "Athens",
     textAlign: "center",
     marginTop: "0"
   },
   p: {
     color: "white",
-    fontSize: "1.5em",
-    fontFamily: "Permanent Marker",
+    fontSize: "3em",
     textAlign: "center",
     animation: "blink 3s infinite"
   }
@@ -40,7 +39,7 @@ class Home extends React.Component {
 
   buttonPress(ev) {
     if (ev.type === 'keydown' && !['Enter', ' '].includes(ev.key)) return
-    this.props.history.push('/characters')
+    this.props.history.push('/pick_characters')
   }
 
   render() {

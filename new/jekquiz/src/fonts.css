@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'Athens';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/athens.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Katanas Edge';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/katanas_edge.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/permanent_marker.ttf') format('truetype');
+}

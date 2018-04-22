@@ -1,4 +1,4 @@
 import Home from './Home'
-import Characters from './Characters'
+import PickCharacter from './PickCharacter'
 
-export { Home, Characters }
+export { Home, PickCharacter }
