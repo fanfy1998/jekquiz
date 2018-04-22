@@ -1,9 +1,9 @@
 import React from 'react'
 import { parse } from 'query-string'
-import player1 from '../images/player1.png'
-import player2 from '../images/player2.png'
-import player3 from '../images/player3.png'
-import player4 from '../images/player4.png'
+import player1 from '../images/team_logo_1.png'
+import player2 from '../images/team_logo_2.png'
+import player3 from '../images/team_logo_3.png'
+import player4 from '../images/team_logo_4.png'
 
 const styles = {
   section: {
