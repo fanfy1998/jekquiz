@@ -18,3 +18,10 @@
   font-weight: 400;
   src: url('./fonts/permanent_marker.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Inconsolata';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/Inconsolata.ttf') format('truetype');
+}

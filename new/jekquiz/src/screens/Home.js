@@ -42,7 +42,7 @@ class Home extends React.Component {
     this.props.history.push('/pick_characters')
   }
 
-  render() {
+  render() {    
     return (
       <section style={styles.section}>
         <div>
