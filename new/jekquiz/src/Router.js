@@ -5,7 +5,7 @@ import './reset.css'
 import './fonts.css'
 import './animations.css'
 
-import { Home, PickCharacter, GetReady, Question, Scores } from './screens'
+import { Home, PickCharacter, GetReady, Question, Scores, WaitingWinner, Winner } from './screens'
 
 const Router = () => (
   <BrowserRouter>
@@ -14,6 +14,8 @@ const Router = () => (
       <Route path='/get_ready' component={GetReady} />
       <Route path='/question' component={Question} />
       <Route path='/scores' component={Scores} />
+      <Route path='/suspense' component={WaitingWinner} />
+      <Route path='/winner' component={Winner} />
       <Route component={Home} />
     </Switch>
   </BrowserRouter>
