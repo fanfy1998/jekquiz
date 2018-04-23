@@ -1,5 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import background from '../images/home.png'
+
+import { load_questions } from '../helpers'
+import actions from '../actions'
 
 const styles = {
   section: {
@@ -29,8 +34,21 @@ const styles = {
 }
 
 class Home extends React.Component {
-  componentWillMount() {
-    document.onkeydown = this.buttonPress.bind(this);
+  state = {
+    is_loading: true
+  }
+
+  componentDidMount() {
+    if (!this.state.is_loading) {
+      document.onkeydown = this.buttonPress.bind(this)
+    }
+    else {
+      load_questions().then(() => {
+        console.log(this);
+        
+        this.setState(state => { return { ...state, is_loading: false } })
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -47,11 +65,32 @@ class Home extends React.Component {
       <section style={styles.section}>
         <div>
           <h1 style={styles.h1}>jeKquiz</h1>
-          <p style={styles.p} onClick={this.buttonPress.bind(this)}>Press Buzz to start</p>
+          { this.render_text(this.state.is_loading) }
         </div>
       </section>
     )
   }
+
+  render_text(is_loading) {
+    if (is_loading) {
+      return (
+        <p style={styles.p} onClick={this.buttonPress.bind(this)}>Loading questions ...</p>
+      )
+    }
+    else {
+      return (
+        <p style={styles.p} onClick={this.buttonPress.bind(this)}>Press Buzz to start</p>
+      )
+    }
+  }
 }
 
-export default Home
+const mapStateToProps =  state => ({
+  questions: state.questions
+})
+
+const mapDispatchToProps = dispatch => ({
+  add_question: question => dispatch(actions.add_question(question))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
