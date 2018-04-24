@@ -39,16 +39,13 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.is_loading) {
-      document.onkeydown = this.buttonPress.bind(this)
-    }
-    else {
-      load_questions().then(() => {
-        console.log(this);
-        
-        this.setState(state => { return { ...state, is_loading: false } })
-      })
-    }
+    load_questions(this.props.add_question.bind(this)).then(() => {        
+      this.setState(state => { return { ...state, is_loading: false } })
+    })
+  }
+
+  componentDidUpdate() {
+    window.document.onkeydown = this.buttonPress.bind(this)
   }
 
   componentWillUnmount() {
@@ -56,6 +53,8 @@ class Home extends React.Component {
   }
 
   buttonPress(ev) {
+    console.log(ev);
+    
     if (ev.type === 'keydown' && !['Enter', ' '].includes(ev.key)) return
     this.props.history.push('/pick_characters')
   }
@@ -85,7 +84,7 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps =  state => ({
+const mapStateToProps = state => ({
   questions: state.questions
 })
 
