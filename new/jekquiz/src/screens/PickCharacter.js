@@ -37,7 +37,7 @@ const styles = {
   }
 }
 
-const team = (team_logo, color_label, team_name) => {
+const team = (team_logo, color_label) => {
   const div_style = { display: "flex", flexDirection: "column" }
 
   const label_style = { marginTop: "3em" }
@@ -50,7 +50,7 @@ const team = (team_logo, color_label, team_name) => {
 
       <img style={label_style} src={color_label} alt="blue label" height="50" width="140"></img>
 
-      <p style={name_style}>{team_name}</p>
+      <p style={name_style}></p>
     </div>
   )
 }
@@ -60,13 +60,13 @@ const PickCharacter = () => (
     <h1 style={styles.title}>Choose a Drink and lets see who loses first:</h1>
 
     <div style={styles.team_logos_section}>
-      { team(team_logo_1, color_label_1, "Team 1") }
+      { team(team_logo_1, color_label_1) }
 
-      { team(team_logo_2, color_label_2, "Team 2") }
+      { team(team_logo_2, color_label_2) }
 
-      { team(team_logo_3, color_label_3, "Team 3") }
+      { team(team_logo_3, color_label_3) }
       
-      { team(team_logo_4, color_label_4, "Team 4") }
+      { team(team_logo_4, color_label_4) }
       </div>
 
     <h3 style={{ ...styles.title, fontSize: "1.25em" }}>

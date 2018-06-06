@@ -1,4 +1,5 @@
 import { Question } from './objects'
+import { List } from 'immutable'
 
 const load_questions = async (add_question) => {
   await window.gapi_loaded
@@ -17,4 +18,18 @@ async function fetch_sheet(sheet_id) {
   })
 }
 
-export { load_questions }
+const pick_questions = (pick_question, questions) => {
+  let question_numbers = List()
+  for (let i = 0; i < questions.size; i++) {
+    question_numbers = question_numbers.push(i)
+  }
+
+  for (let i = 0; i < 10 && question_numbers.size !== 0; i++) {    
+    let rnd = Math.floor(Math.random() * question_numbers.size)
+    let rnd_index = question_numbers.get(rnd)
+    question_numbers = question_numbers.remove(rnd)
+    pick_question(questions.get(rnd_index))
+  }
+}
+
+export { load_questions, pick_questions }

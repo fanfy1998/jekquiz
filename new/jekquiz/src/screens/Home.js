@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import io from 'socket.io-client'
 
 import background from '../images/home.png'
 
-import { load_questions } from '../helpers'
+import { load_questions, pick_questions } from '../helpers'
 import actions from '../actions'
+import { BuzzController } from '../objects';
 
 const styles = {
   section: {
@@ -35,26 +37,30 @@ const styles = {
 
 class Home extends React.Component {
   state = {
-    is_loading: true
+    is_loading: true,
+    socket: null
   }
 
   componentDidMount() {
-    load_questions(this.props.add_question.bind(this)).then(() => {        
-      this.setState(state => { return { ...state, is_loading: false } })
-    })
+    load_questions(this.props.add_question.bind(this))
+      .then(() => {        
+        pick_questions(this.props.pick_question.bind(this), this.props.questions)
+
+        let socket = io('http://localhost:3001')
+        socket.on('connect', () => {
+          socket.on('buzz_connection', ev => {
+            if (!ev.success) {
+              alert(ev.message)
+              socket.emit('reconnect_buzz')
+            }
+          })
+        })
+
+        this.setState(state => { return { is_loading: false, socket } })
+      })
   }
 
-  componentDidUpdate() {
-    window.document.onkeydown = this.buttonPress.bind(this)
-  }
-
-  componentWillUnmount() {
-    document.onkeydown = null;
-  }
-
-  buttonPress(ev) {
-    console.log(ev);
-    
+  buttonPress(ev) {    
     if (ev.type === 'keydown' && !['Enter', ' '].includes(ev.key)) return
     this.props.history.push('/pick_characters')
   }
@@ -64,32 +70,20 @@ class Home extends React.Component {
       <section style={styles.section}>
         <div>
           <h1 style={styles.h1}>jeKquiz</h1>
-          { this.render_text(this.state.is_loading) }
+          <p style={styles.p}>{this.state.is_loading ? "Loading questions ..." : "Press Buzz to start"}</p>
         </div>
       </section>
     )
   }
-
-  render_text(is_loading) {
-    if (is_loading) {
-      return (
-        <p style={styles.p} onClick={this.buttonPress.bind(this)}>Loading questions ...</p>
-      )
-    }
-    else {
-      return (
-        <p style={styles.p} onClick={this.buttonPress.bind(this)}>Press Buzz to start</p>
-      )
-    }
-  }
 }
 
 const mapStateToProps = state => ({
-  questions: state.questions
+  questions: state.question_reducer.questions
 })
 
 const mapDispatchToProps = dispatch => ({
-  add_question: question => dispatch(actions.add_question(question))
+  add_question: question => dispatch(actions.add_question(question)),
+  pick_question: question => dispatch(actions.pick_question(question))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

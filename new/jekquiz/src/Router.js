@@ -8,9 +8,12 @@ import './reset.css'
 import './fonts.css'
 import './animations.css'
 
-import { Home, PickCharacter, GetReady, Question, Scores, WaitingWinner, Winner } from './screens'
+import { 
+  GoogleAuthentication, PickCharacter, GetReady, Question, Winner,
+  Scores, WaitingWinner
+} from './screens'
 
-const store = createStore(reducer);
+const store = createStore(reducer)
 
 const Router = () => (
   <Provider store={store}>
@@ -22,7 +25,7 @@ const Router = () => (
         <Route path='/scores' component={Scores} />
         <Route path='/suspense' component={WaitingWinner} />
         <Route path='/winner' component={Winner} />
-        <Route component={Home} />
+        <Route component={GoogleAuthentication} />
       </Switch>
     </BrowserRouter>
   </Provider>
