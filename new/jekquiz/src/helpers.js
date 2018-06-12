@@ -7,7 +7,7 @@ const load_questions = async (add_question) => {
   let data = await fetch_sheet("1Hvw-qmu5l2zaquIZEfI-wMznuG7hhIoG-bBJCu9_LRo")
   
   for (let i = 1; i < data.result.values.length; ++i) {
-    add_question(new Question(data.result.values[i][0], data.result.values[i].slice(1, 4), data.result.values[i][5]));
+    add_question(new Question(data.result.values[i][0], data.result.values[i].slice(1, 5), parseInt(data.result.values[i][5], 10)))
   }
 }
 
@@ -27,6 +27,7 @@ const pick_questions = (pick_question, questions) => {
   for (let i = 0; i < 10 && question_numbers.size !== 0; i++) {    
     let rnd = Math.floor(Math.random() * question_numbers.size)
     let rnd_index = question_numbers.get(rnd)
+    console.log()
     question_numbers = question_numbers.remove(rnd)
     pick_question(questions.get(rnd_index))
   }

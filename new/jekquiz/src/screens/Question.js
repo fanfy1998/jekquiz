@@ -1,9 +1,12 @@
 import React from 'react'
-import { parse } from 'query-string'
+import { connect } from 'react-redux'
+
 import player1 from '../images/team_logo_1.png'
 import player2 from '../images/team_logo_2.png'
 import player3 from '../images/team_logo_3.png'
 import player4 from '../images/team_logo_4.png'
+
+import actions from '../actions'
 
 const styles = {
   section: {
@@ -57,32 +60,130 @@ const styles = {
   }
 }
 
-const Question = (props) => {
-  const params = parse(props.location.search)
+class Question extends React.Component {
+  state = {
+    timer: 60,
+    buzzEventHandler: null
+  }
 
-  return (
-    <section style={styles.section}>
-      <div style={styles.countdown_div}>
-        <h1 style={styles.countdown}>01:00</h1>
-      </div>
+  store = {
+    answered: [false, false, false, false],
+    timeout: null
+  }
 
-      <h2 style={styles.question}>Pergunta</h2>
+  componentDidMount() {
+    const buzzEventHandler = this.buzzEventHandler.bind(this)
+    window.addEventListener('buzz', buzzEventHandler)
+    this.store.timeout = setTimeout(this.update_timer.bind(this), 1000)
 
-      <div style={styles.answers_div}>
-        <div style={{ ...styles.answer, background: '#0E94AA' }}>Resposta 1</div>
-        <div style={{ ...styles.answer, background: '#DB9405' }}>Resposta 2</div>
-        <div style={{ ...styles.answer, background: '#71C114' }}>Resposta 3</div>
-        <div style={{ ...styles.answer, background: '#F4D30F' }}>Resposta 4</div>
-      </div>
+    this.setState(state => ({ ...state, buzzEventHandler }))
+  }
 
-      <div style={styles.players_div}>
-        <img src={player1} height="140" width="140"></img>
-        <img src={player2} height="140" width="140"></img>
-        <img src={player3} height="140" width="140"></img>
-        <img src={player4} height="140" width="140"></img>
-      </div>
-    </section>
-  )
+  componentDidUpdate(prevState) {
+    if (this.state.timer === 0) {
+      window.removeEventListener('buzz', this.state.buzzEventHandler)
+      clearTimeout(this.store.timeout)
+      this.props.history.push('/scores')
+    }
+    else if (prevState.timer !== this.state.timer && this.state.timer !== 0) {
+      this.store.timeout = setTimeout(this.update_timer.bind(this), 1000)
+    }
+
+    if (!this.store.answered.includes(false)) {
+      this.setState(state => ({ ...state, timer: 0  }))
+    }
+  }
+
+  buzzEventHandler(ev) {
+    const color = ev.detail.substring(0, ev.detail.length - 1)
+    const team = parseInt(ev.detail[ev.detail.length - 1], 10)
+
+    if (color === 'buzz' || this.store.answered[team]) return
+
+    let answer
+
+    switch(color) {
+      case 'blue':
+        answer = 0
+        break
+      case 'orange':
+        answer = 1
+        break
+      case 'green':
+        answer = 2
+        break
+      case 'yellow':
+        answer = 3
+        break
+    }
+
+    this.store.answered[team] = true
+    this.props.answer_question(team, answer)
+  }
+
+  update_timer() {
+    this.setState(state => ({ ...state, timer: this.state.timer - 1 }))
+  }
+
+  render_team(team) {
+    if (this.store.answered[team]) return
+
+    let src
+
+    switch (team) {
+      case 0:
+        src = player1
+        break;
+      case 1:
+        src = player2
+        break;
+      case 2:
+        src = player3
+        break;
+      case 3:
+        src = player4
+        break;
+    }
+
+    return (<img src={src} height="140" width="140"></img>)
+  }
+
+  render() {
+    const question = this.props.questions.get(this.props.current_question)
+
+    return (
+      <section style={styles.section}>
+        <div style={styles.countdown_div}>
+          <h1 style={styles.countdown}>{this.state.timer}</h1>
+        </div>
+
+        <h2 style={styles.question}>{question.question}</h2>
+
+        <div style={styles.answers_div}>
+          <div style={{ ...styles.answer, background: '#0E94AA' }}>{question.answers[0]}</div>
+          <div style={{ ...styles.answer, background: '#DB9405' }}>{question.answers[1]}</div>
+          <div style={{ ...styles.answer, background: '#71C114' }}>{question.answers[2]}</div>
+          <div style={{ ...styles.answer, background: '#F4D30F' }}>{question.answers[3]}</div>
+        </div>
+
+        <div style={styles.players_div}>
+          { this.render_team(0) }
+          { this.render_team(1) }
+          { this.render_team(2) }
+          { this.render_team(3) }
+        </div>
+      </section>
+    )
+  }
 }
 
-export default Question
+const mapStateToProps = state => ({
+  questions: state.reducer.picked_questions,
+  current_question: state.reducer.current_question
+})
+
+const mapDispatchToProps = dispatch => ({
+  answer_question: (team, answer) => dispatch(actions.answer_question(team, answer)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Question)

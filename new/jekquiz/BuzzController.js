@@ -19,14 +19,20 @@ class BuzzBell {
 }
 
 class BuzzController {
-  constructor() {}
+  constructor() {
+    this.connected = false
+    this.ondata = false
+  }
 
-  connect() {
+  connect() {    
     let deviceInfo = HID.devices().find(
       device => device.product == 'Logitech Buzz(tm) Controller V1'
     )
 
-    if (deviceInfo === undefined) return { success: false, message: 'Buzz Controllers not connected' }
+    if (deviceInfo === undefined) {
+      this.connected = false
+      return { success: false, message: 'Buzz Controllers not connected' }
+    }
 
     this.device = new HID.HID(deviceInfo.path)
 
@@ -37,12 +43,15 @@ class BuzzController {
       new BuzzBell('1271270128240', '12712700248', '12712700244', '12712700242', '12712700241')
     ]
 
+    this.connected = true
+
     return { success: true, message: 'Connected Buzz Controllers successfully' }
   }
 
-  data(onerror, ondata) {
+  data(ondata, onerror) {
     this.device.on('error', onerror)
     this.device.on('data', ondata)
+    this.ondata = true
   }
 
   identify(codeArray) {

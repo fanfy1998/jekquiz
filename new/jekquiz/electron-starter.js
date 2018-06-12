@@ -62,12 +62,29 @@ app.on('activate', function () {
 // Connect Buzz Controllers
 const connect = socket => socket.emit('buzz_connection', BuzzController.connect())
 
+let data_ondata, data_onerror
+
 // Socket io
 io.on('connection', socket => {
+  if (data_ondata === undefined) {
+     data_ondata = (data) => {
+       data = BuzzController.identify(data)
+       if (data !== undefined) socket.emit('buzz_click', data)
+     }
+
+     data_onerror = (error) => {
+       console.log('BuzzController error: ' + error)
+     }
+  }
+
   connect(socket)
+  if (BuzzController.connected && !BuzzController.ondata)
+    BuzzController.data(data_ondata, data_onerror)
 
   socket.on('reconnect_buzz', (ev) => {
-    setTimeout(() => connect(socket), 2000)
+    connect(socket)
+    if (BuzzController.connected && !BuzzController.ondata)
+      BuzzController.data(data_ondata, data_onerror)
   })
 })
 

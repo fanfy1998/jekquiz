@@ -6,7 +6,6 @@ import background from '../images/home.png'
 
 import { load_questions, pick_questions } from '../helpers'
 import actions from '../actions'
-import { BuzzController } from '../objects';
 
 const styles = {
   section: {
@@ -38,30 +37,37 @@ const styles = {
 class Home extends React.Component {
   state = {
     is_loading: true,
-    socket: null
+    buzzEventHandler: null
   }
 
   componentDidMount() {
     load_questions(this.props.add_question.bind(this))
-      .then(() => {        
+      .then(() => {
         pick_questions(this.props.pick_question.bind(this), this.props.questions)
 
+        let buzzEventHandler = this.buzzEventHandler.bind(this)
         let socket = io('http://localhost:3001')
         socket.on('connect', () => {
           socket.on('buzz_connection', ev => {
             if (!ev.success) {
               alert(ev.message)
-              socket.emit('reconnect_buzz')
+              setTimeout(() => socket.emit('reconnect_buzz'), 2000)
             }
+          })
+          socket.on('buzz_click', (key) => {
+            window.dispatchEvent(new CustomEvent('buzz', { detail: key }))
           })
         })
 
-        this.setState(state => { return { is_loading: false, socket } })
+        window.addEventListener('buzz', buzzEventHandler)
+
+        this.setState(state => ({ is_loading: false, buzzEventHandler }))
       })
   }
 
-  buttonPress(ev) {    
-    if (ev.type === 'keydown' && !['Enter', ' '].includes(ev.key)) return
+  buzzEventHandler(ev) {  
+    if (!ev.detail.includes('buzz')) return
+    window.removeEventListener('buzz', this.state.buzzEventHandler)
     this.props.history.push('/pick_characters')
   }
 
@@ -78,7 +84,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  questions: state.question_reducer.questions
+  questions: state.reducer.questions
 })
 
 const mapDispatchToProps = dispatch => ({
