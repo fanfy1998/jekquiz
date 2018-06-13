@@ -7,6 +7,8 @@ import player2 from '../images/team_logo_2.png'
 import player3 from '../images/team_logo_3.png'
 import player4 from '../images/team_logo_4.png'
 
+import actions from '../actions'
+
 const styles = {
   section: {
     background: '#F4BD37',
@@ -58,11 +60,13 @@ class Scores extends React.Component {
     this.store.scores = labeled_scores.sortBy(labeled_score => labeled_score.score).reverse()
   }
 
+  componentDidMount() {
+    setTimeout(() => { this.props.history.push('/question') }, 5000)
+  }
+
   render_team_at(index) {
     const labeled_score = this.store.scores.get(index)
     let src
-
-    console.log(labeled_score, this.store.scores)
 
     switch(labeled_score.team) {
       case 0:
@@ -120,6 +124,9 @@ class Scores extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ scores: state.reducer.scores })
+const mapStateToProps = state => ({
+  scores: state.reducer.scores,
+  current_question: state.reducer.current_question
+})
 
 export default connect(mapStateToProps)(Scores)

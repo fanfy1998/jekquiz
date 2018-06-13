@@ -30,7 +30,7 @@ const styles = {
 
 class GetReady extends React.Component {
   state = {
-    timer: 1
+    timer: 3
   }
 
   componentDidUpdate() {

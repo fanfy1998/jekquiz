@@ -41,6 +41,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    this.props.reset_state()
     load_questions(this.props.add_question.bind(this))
       .then(() => {
         pick_questions(this.props.pick_question.bind(this), this.props.questions)
@@ -89,7 +90,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   add_question: question => dispatch(actions.add_question(question)),
-  pick_question: question => dispatch(actions.pick_question(question))
+  pick_question: question => dispatch(actions.pick_question(question)),
+  reset_state: () => dispatch(actions.reset_state())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

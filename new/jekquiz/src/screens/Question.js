@@ -62,13 +62,28 @@ const styles = {
 
 class Question extends React.Component {
   state = {
-    timer: 60,
-    buzzEventHandler: null
+    timer: 60
   }
 
   store = {
     answered: [false, false, false, false],
-    timeout: null
+    timeout: null,
+    buzzEventHandler: null,
+    question: null
+  }
+
+  componentWillMount() {
+    let question = this.props.questions.get(this.props.current_question)
+    if (this.props.current_question === 2) question = undefined
+    if (question === undefined) {
+      question = { question: '', answers: ['', '', '', ''] }
+      this.props.history.push('/suspense')
+    }
+    this.store.question = question
+  }
+
+  componentWillUnmount() {
+    this.props.next_question()
   }
 
   componentDidMount() {
@@ -76,12 +91,12 @@ class Question extends React.Component {
     window.addEventListener('buzz', buzzEventHandler)
     this.store.timeout = setTimeout(this.update_timer.bind(this), 1000)
 
-    this.setState(state => ({ ...state, buzzEventHandler }))
+    this.store.buzzEventHandler = buzzEventHandler
   }
 
   componentDidUpdate(prevState) {
     if (this.state.timer === 0) {
-      window.removeEventListener('buzz', this.state.buzzEventHandler)
+      window.removeEventListener('buzz', this.store.buzzEventHandler)
       clearTimeout(this.store.timeout)
       this.props.history.push('/scores')
     }
@@ -149,21 +164,19 @@ class Question extends React.Component {
   }
 
   render() {
-    const question = this.props.questions.get(this.props.current_question)
-
     return (
       <section style={styles.section}>
         <div style={styles.countdown_div}>
           <h1 style={styles.countdown}>{this.state.timer}</h1>
         </div>
 
-        <h2 style={styles.question}>{question.question}</h2>
+        <h2 style={styles.question}>{this.store.question.question}</h2>
 
         <div style={styles.answers_div}>
-          <div style={{ ...styles.answer, background: '#0E94AA' }}>{question.answers[0]}</div>
-          <div style={{ ...styles.answer, background: '#DB9405' }}>{question.answers[1]}</div>
-          <div style={{ ...styles.answer, background: '#71C114' }}>{question.answers[2]}</div>
-          <div style={{ ...styles.answer, background: '#F4D30F' }}>{question.answers[3]}</div>
+          <div style={{ ...styles.answer, background: '#0E94AA' }}>{this.store.question.answers[0]}</div>
+          <div style={{ ...styles.answer, background: '#DB9405' }}>{this.store.question.answers[1]}</div>
+          <div style={{ ...styles.answer, background: '#71C114' }}>{this.store.question.answers[2]}</div>
+          <div style={{ ...styles.answer, background: '#F4D30F' }}>{this.store.question.answers[3]}</div>
         </div>
 
         <div style={styles.players_div}>
@@ -184,6 +197,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   answer_question: (team, answer) => dispatch(actions.answer_question(team, answer)),
+  next_question: () => dispatch(actions.next_question())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question)

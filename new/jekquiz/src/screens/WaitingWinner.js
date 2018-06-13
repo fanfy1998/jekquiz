@@ -19,12 +19,16 @@ const styles = {
   }
 }
 
-const WaitingWinner = () => (
-  <section style={styles.section}>
-    <div style={styles.div}>
-      <h2> And the winner is....</h2>
-    </div>
-  </section>
-)
+const WaitingWinner = (props) => {  
+  setTimeout(() => props.history.push('/winner'), 5000)
+
+  return (
+    <section style={styles.section}>
+      <div style={styles.div}>
+        <h2> And the winner is....</h2>
+      </div>
+    </section>
+  )
+}
 
 export default WaitingWinner

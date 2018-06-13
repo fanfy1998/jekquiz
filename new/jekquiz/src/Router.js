@@ -10,7 +10,7 @@ import './animations.css'
 
 import { 
   GoogleAuthentication, PickCharacter, GetReady, Question, Winner,
-  Scores, WaitingWinner
+  Scores, WaitingWinner, Home
 } from './screens'
 
 const store = createStore(reducer)
@@ -25,6 +25,7 @@ const Router = () => (
         <Route path='/scores' component={Scores} />
         <Route path='/suspense' component={WaitingWinner} />
         <Route path='/winner' component={Winner} />
+        <Route path='/home' component={Home} />
         <Route component={GoogleAuthentication} />
       </Switch>
     </BrowserRouter>

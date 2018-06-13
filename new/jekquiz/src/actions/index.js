@@ -3,7 +3,8 @@ export const types = {
   PICK_QUESTION: 'PICK_QUESTION',
   PICK_TEAM_COLOR: 'PICK_TEAM_COLOR',
   NEXT_QUESTION: 'NEXT_QUESTION',
-  ANSWER_QUESTION: 'ANSWER_QUESTION'
+  ANSWER_QUESTION: 'ANSWER_QUESTION',
+  RESET_STATE: 'RESET_STATE'
 }
 
 const add_question = question => ({
@@ -32,12 +33,15 @@ const answer_question = (team, answer) => ({
   answer
 })
 
+const reset_state = () => ({ type: types.RESET_STATE })
+
 const actions = {
   add_question,
   pick_question,
   pick_team_color,
   next_question,
-  answer_question
+  answer_question,
+  reset_state
 }
 
 export default actions

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { types } from '../actions'
 import { List } from 'immutable'
 
-const { ADD_QUESTION, PICK_QUESTION, PICK_TEAM_COLOR, NEXT_QUESTION, ANSWER_QUESTION } = types
+const { ADD_QUESTION, PICK_QUESTION, PICK_TEAM_COLOR, NEXT_QUESTION, ANSWER_QUESTION, RESET_STATE } = types
 
 const INITIAL_STATE = {
   questions: List(),
@@ -37,6 +37,11 @@ const reducer = (state = INITIAL_STATE, action) => {
 
     case PICK_TEAM_COLOR:
       return { ...state, team_colors: state.team_colors.set(action.team, action.color) }
+
+    case RESET_STATE:
+      console.log(INITIAL_STATE)
+      return { ...INITIAL_STATE,...INITIAL_STATE
+    }
 
     default:
       return state
