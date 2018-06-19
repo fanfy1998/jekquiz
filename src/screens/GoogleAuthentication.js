@@ -34,7 +34,7 @@ class GoogleAuthentication extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ height: "100%", width: "100%" }}>
         <Home history={this.props.history}/>
       </div>
     )

@@ -1,0 +1,121 @@
+<html lang="en">
+<script type="text/javascript" charset="utf-8" id="zm-extension" src="moz-extension://217a6652-a54d-4faf-ad2e-2970b9ed8a6e/scripts/webrtc-patch.js"
+  async=""></script>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <title>JeKQuizz</title>
+  <style type="text/css">
+    /* RESET */
+
+    body,
+    html,
+    #root {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Permanent Marker';
+    }
+  </style>
+  <style type="text/css">
+    @font-face {
+      font-family: 'Athens';
+      font-style: normal;
+      font-weight: 400;
+      src: url(/static/media/athens.085eca51.ttf) format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Katanas Edge';
+      font-style: normal;
+      font-weight: 400;
+      src: url(/static/media/katanas_edge.7f4ae840.ttf) format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Permanent Marker';
+      font-style: normal;
+      font-weight: 400;
+      src: url(/static/media/permanent_marker.3e9e8a23.ttf) format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Inconsolata';
+      font-style: normal;
+      font-weight: 400;
+      src: url(/static/media/Inconsolata.29b00ebc.ttf) format('truetype');
+    }
+  </style>
+  <style type="text/css">
+    @-webkit-keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root">
+    <section style="background-color: rgb(124, 204, 237); display: flex; flex-direction: column; height: 100%; width: 100%;">
+      <h1 style="align-items: center; color: black; display: flex; justify-content: center; padding-top: 10px; width: 100%; font-size: 2.75em;">Choose a Drink and lets see who loses first:</h1>
+      <div style="display: flex; flex-direction: row; justify-content: space-around; margin: 45px 190px 0px;">
+        <div style="display: flex; flex-direction: column;">
+          <img src="/static/media/team_logo_1.73f08b1b.png" width="140" height="140">
+          <img style="margin-top: 3em;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAYCAYAAAB6OOplAAAAAXNSR0IArs4c6QAAAG5JREFUaAXt0kENwCAABEFAQNWjoiZLUg/sa87AJpObz36/YdcF1vWCwC8AOjoCaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTx6Aj6AOXgAnu7F/TUAAAAAElFTkSuQmCC"
+            alt="blue label" width="140" height="50">
+          <p style="font-size:2em;text-align:center">Team 1</p>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <img src="/static/media/team_logo_2.474daf01.png" width="140" height="140">
+          <img style="margin-top: 3em;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAYCAYAAAB6OOplAAAAAXNSR0IArs4c6QAAAG5JREFUaAXt0sEJwCAABEEV0v/H7lJMhPTgvuYaWBhuvvv5hl0XWNcLAr8A6OgIoEFHAlHGo0FHAlHGo0FHAlHGo0FHAlHGo0FHAlHGo0FHAlHGo0FHAlHGo0FHAlHGo0FHAlHGo0FHAlHGoyPoAzEcAqMZTd2BAAAAAElFTkSuQmCC"
+            alt="blue label" width="140" height="50">
+          <p style="font-size:2em;text-align:center">Team 2</p>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <img src="/static/media/team_logo_3.f253031d.png" width="140" height="140">
+          <img style="margin-top: 3em;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAYCAYAAAB6OOplAAAAAXNSR0IArs4c6QAAAG5JREFUaAXt0kENwCAABEFAQ40iscpKUg/sa87AJpOb+32+YdcF1vWCwC8AOjoCaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTxaNCRQJTx6Aj6ABvVAnWBfpQYAAAAAElFTkSuQmCC"
+            alt="blue label" width="140" height="50">
+          <p style="font-size:2em;text-align:center">Team 3</p>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <img src="/static/media/team_logo_4.3f6a943b.png" width="140" height="140">
+          <img style="margin-top: 3em;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAYCAYAAAB6OOplAAAAAXNSR0IArs4c6QAAAG9JREFUaAXt0kENwCAABEHAQP3rwkr/JakH9jVnYJPJzXc/37DrAut6QeAXAB0dATToSCDKeDToSCDKeDToSCDKeDToSCDKeDToSCDKeDToSCDKeDToSCDKeDToSCDKeDToSCDKeDToSCDKeHQEfQAl2gMFuO5G2QAAAABJRU5ErkJggg=="
+            alt="blue label" width="140" height="50">
+          <p style="font-size:2em;text-align:center">Team 4</p>
+        </div>
+      </div>
+      <h3 style="align-items: center; color: black; display: flex; justify-content: center; padding-top: 10px; width: 100%; font-size: 1.25em;">Select with the buzz buttons the icon you want for your team</h3>
+    </section>
+  </div>
+  <script type="text/javascript" src="/static/js/bundle.js"></script>
+
+</body>
+
+</html>
